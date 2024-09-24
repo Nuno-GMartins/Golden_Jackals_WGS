@@ -16,33 +16,24 @@
 # Your scripts below
 ############################################
 
-WOR=/projects/mjolnir1/people/jbf527/jackals/genotype/GL_ExpandedGoldenJackals/beagle_chr
+WOR='pwd'
 
 DAT=GJ_ExpandedGoldenJackals
 BG="$DAT".bg
 MAF="$DAT".mafs
-#ind=
 
 zcat $WOR/"$DAT"_chr1.beagle.gz > $WOR/$BG
 for i in {2..38}; do zcat $WOR/"$DAT"_chr"$i".beagle.gz | tail -n +2 >> $WOR/$BG; done
-zcat $WOR/"$DAT"_chrX.beagle.gz | tail -n +2 >> $WOR/$BG
+#zcat $WOR/"$DAT"_chrX.beagle.gz | tail -n +2 >> $WOR/$BG
 #zcat $WOR/"$DAT"_chrY.beagle.gz | tail -n +2 >> $WOR/$BG
 zcat $WOR/"$DAT"_chrMT.beagle.gz | tail -n +2 >> $WOR/$BG
 gzip $WOR/$BG
 
 zcat $WOR/"$DAT"_chr1.mafs.gz > $WOR/$MAF
 for i in {2..38}; do zcat $WOR/"$DAT"_chr"$i".mafs.gz | tail -n +2 >> $WOR/$MAF; done
-zcat $WOR/"$DAT"_chrX.mafs.gz | tail -n +2 >> $WOR/$MAF
+#zcat $WOR/"$DAT"_chrX.mafs.gz | tail -n +2 >> $WOR/$MAF
 #zcat $WOR/"$DAT"_chrY.mafs.gz | tail -n +2 >> $WOR/$MAF
 zcat $WOR/"$DAT"_chrMT.mafs.gz | tail -n +2 >> $WOR/$MAF
 gzip $WOR/$MAF
-
-#zcat GJ-HC_EUR_chr1.haplo.gz > Europe_haplotype.haplo
-#zcat GJ-HC_EUR_chr2.haplo.gz | tail -n +2 >> Europe_haplotype.haplo
-#for i in {2..38}; do zcat GJ-HC_EUR_chr$i.haplo.gz | tail -n +2 >> Europe_haplotype.haplo; done
-#zcat GJ-HC_EUR_chrX.haplo.gz | tail -n +2 >> Europe_haplotype.haplo
-#zcat GJ-HC_EUR_chrY.haplo.gz | tail -n +2 >> Europe_haplotype.haplo
-#zcat GJ-HC_EUR_chrMT.haplo.gz | tail -n +2 >> Europe_haplotype.haplo
-#gzip Europe_haplotype.haplo
 
 #haploToPlink Europe_haplotype.haplo.gz Europe_haplotype
