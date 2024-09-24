@@ -24,21 +24,13 @@ beg="$2" #name of one of the haplo files - Ex: GJ_ExpandedGoldenJackals_chr1.hap
 
 WOK=/projects/mjolnir1/people/jbf527/jackals/filtered_bams
 
-#na=$(echo $WOK/$file | cut -f 1 -d "." | cut -f 8 -d "/")
 DAT=$(echo $beg | cut -f 1 -d "." | cut -f 1 -d "_")
 na=$(echo $DAT | cut -f 2 -d "_")
 BG="$na".haplo
 
 HPC=/projects/mjolnir1/people/jbf527/jackals/haplotype/Pop_$na
 
-#zcat $HPC/"$DAT"_chr1.haplo.gz > $HPC/$BG
-#for i in {2..38}; do zcat $HPC/"$DAT"_chr"$i".haplo.gz | tail -n +2 >> $HPC/$BG; done
-#zcat $HPC/"$DAT"_chrX.haplo.gz | tail -n +2 >> $HPC/$BG
-#zcat $HPC/"$DAT"_chrY.haplo.gz | tail -n +2 >> $HPC/$BG
-#zcat $HPC/"$DAT"_chrMT.haplo.gz | tail -n +2 >> $HPC/$BG
-
-#cat $HPC/$BG | awk 'NR!=1 {delete a;for(i=4;i<=NF;i++){if($i!="N"){a[$i]++}};if(length(a)<=2){print $0};next} NR==1 {print $0}' OFS='\t' | gzip -c > $HPC/$BG.gz
-#cat $HPC/$BG | awk 'NR!=1 {delete a;for(i=4;i<=NF;i++){if($i!="N"){a[$i]++}};if(length(a)<=2){print $0};next} NR==1 {print $0}' OFS='\t' | gzip -c > $HPC/$BG.gz
+cat $HPC/$BG | awk 'NR!=1 {delete a;for(i=4;i<=NF;i++){if($i!="N"){a[$i]++}};if(length(a)<=2){print $0};next} NR==1 {print $0}' OFS='\t' | gzip -c > $HPC/$BG.gz
 
 haploToPlink $HPC/$BG.gz $HPC/Canids_"$na"_haplo
 
@@ -52,9 +44,9 @@ plink2 --tfile $HPC/Canids_"$na"_haplo --allow-extra-chr --make-bed --out $HPC/C
 # We will change ind0 (ANGSD default name) for each name of the samples we used:
 awk '{print $1}' $HPC/Canids_"$na"_haplo.fam > $HPC/listA #list the names of the fam file (ind0-n)
 
-#while read p; do
-#  echo $p | cut -f 1 -d "." | cut -f 8 -d "/"
-#done < $WOK/$file > $HPC/listB
+while read p; do
+  echo $p | cut -f 1 -d "." | cut -f 8 -d "/"
+done < $WOK/$file > $HPC/listB
 
 # This command lits the names of each sample used to generate the initial haplotype file
 cp $HPC/Canids_"$na"_haplo.fam $HPC/Canids_"$na"_haplo.old.fam
@@ -76,7 +68,7 @@ sed -i 's/-9$/1/' $HPC/Canids_"$na"_haplo.fam
 
 ## We need to filter a bit the file
 ## The most important filter is to remove transitions
-# Filter the sites of the variant file that have transitions
+## Filter the sites of the variant file that have transitions
 awk '{print $2,$5,$6}' $HPC/Canids_"$na"_haplo.bim > $HPC/variant_ID.txt
 awk -F' ' -v OFS=, '$2=="A" && $3=="G"{print $1}' $HPC/variant_ID.txt > $HPC/ID
 awk -F' ' -v OFS=, '$2=="G" && $3=="A"{print $1}' $HPC/variant_ID.txt >> $HPC/ID
@@ -104,8 +96,6 @@ cp $HPC/"$na"_haplo_filtered.eigenstratgeno $HPC/"$na"_haplo_filtered_old.eigens
 mv $HPC/"$na"_haplo_filtered.eigenstratgeno $HPC/"$na"_haplo_filtered.geno
 
 ### Now we will add the fox into the dataset so it can be use as an outgroup for different analysis
-## Xin script to adding samples into the plink files
-
 echo 'fox	fox	/projects/mjolnir1/people/jbf527/ref/fox/FX001.consensus.fa.gz' > $HPC/meta.txt
 echo 'dog_india         dog     /projects/mjolnir1/people/jbf527/jackals/consensus/MD001.consensus.fa.gz' >> $HPC/meta.txt
 echo 'dog_sweden	dog     /projects/mjolnir1/people/jbf527/jackals/consensus/MD012.Trans.consensus.fa.gz' >> $HPC/meta.txt
@@ -122,6 +112,7 @@ echo 'MJ320     Thailand    /projects/mjolnir1/people/jbf527/jackals/consensus/M
 
 module unload plink/2.0.0
 
+# Next we increase the data filtering, for Linkage desiquilibrium SNPs and for minimal frequency (maf).
 module load plink/1.9.0
 plink --bfile Canids_"$na"_haplo_filtered --indep-pairwise 50 5 0.5 --out "$na" --allow-extra-chr --chr-set 38
 plink --bfile Canids_"$na"_haplo_filtered --allow-extra-chr --chr-set 38 --maf 0.05 --make-bed --out "$na"_haplo_filtered_filtercount
