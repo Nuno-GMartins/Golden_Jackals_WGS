@@ -31,6 +31,3 @@ java -Xmx16G -jar $AST/astral.5.7.8.jar -i $TRE/tree_combined_GJ1k.tree \
   --outgroup FX001 -o $TRE/r1k_combine.tree 2> $TRE/out_r1k.log
 
 #### use the support file instead - because the support files are mucht lighter and will make it run faster
-
-#java -Xmx96G -jar $AST/astral.5.7.8.jar -i $TRE/tree_combined_GJ1k.tree \
-#  -b $TRE/bs-file_r1k --outgroup FX001 -o $TRE/r1k_combine.tree 2> $TRE/out_r1k.log
