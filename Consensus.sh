@@ -24,27 +24,6 @@ WOK=/projects/mjolnir1/people/jbf527/jackals/filtered_bams
 GL=/projects/mjolnir1/people/jbf527/jackals/consensus
 DOG=/projects/mjolnir1/people/jbf527/ref/CanFam3_withMT/Canis_l_familiaris_CanFam3.1_withMT.fasta
 
-#sample=$(sed -n "$SLURM_ARRAY_TASK_ID"p Simple.filelist | awk '{print $1}')
-
-#na=$(echo $sample | cut -f 1 -d ".")
-
-#angsd -doFasta 2 -minQ 20 -ref $DOG -minmapq 20 -noTrans 1 -doCounts 1 -P 15 -i $sample -out $GL/$na.consensus
-#samtools faidx $GL/$na.consensus.fa.gz
-
-#while read p; do
-#    na=$(echo $p | cut -f 1 -d ".")
-#    angsd -doFasta 2 -minQ 20 -ref $DOG -minmapq 20 -noTrans 1 -doCounts 1 -P 15 -i $p -out $GL/$na.consensus
-#done < Simple.filelist
-
-#for m in $WOK/MJ00*.bam
-#do
-#    n=$(echo $m | cut -f 8 -d "/")
-#    na=$(echo $n | cut -f 1 -d ".")
-#    angsd -doFasta 2 -minQ 20 -minmapq 20 -setMinDepth 3 -ref $DOG -noTrans 1 -P 4 -doCounts 1 -i $n -out $GL/$na.consensus
-#done
-
-#angsd -doFasta 2 -doCounts 1 -i FX001.CanFam31.filtered.bam -minmapq 20 -minQ 20 -setMinDepthInd 3  -out $GL/FX001.consensus
-
 ls $WOK/*.bam > samples_list.txt
 
 sample=$(sed -n "$SLURM_ARRAY_TASK_ID"p samples_list.txt | awk '{print $1}')
