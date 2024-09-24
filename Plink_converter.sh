@@ -18,18 +18,9 @@
 
 module load plink/2.0.0
 
-#LOC=Europe_haplotype
-
-#plink2 --tfile $LOC --dog --make-bed --max-alleles 2 --out $LOC
-
 cp Europe_haplotype.tped Europe_haplotype.old.tped
 
 cat Europe_haplotype.old.tped | sed 's/N N/0 0/g' > Europe_haplotype.tped
 
 plink2 --tfile Europe_haplotype --allow-extra-chr \
   --make-bed --out Europe_haplotype --chr-set 38
-
-#plink2 --tfile GJ-HC_EUR_TEST_haplotype \
-#  --allow-extra-chr --make-bed \
-#  --out GJ-HC_EUR_chrTEST_haploid \
-#  --chr-set 38 --output-missing-genotype '0'
