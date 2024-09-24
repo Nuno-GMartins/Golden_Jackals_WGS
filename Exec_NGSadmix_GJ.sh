@@ -6,11 +6,11 @@
 #SBATCH -e ngsadmix_Gja_%A_%a.error	## save error message if any	
 ##SBATCH --mail-user=example@example.dk	## your email account to receive notification of job status
 ##SBATCH --mail-type=ALL	## ALL mean you will receive everything about your job, such like start running, fail, or finish
-#SBATCH -t 40:00:00	## give an estimation of how long is your job going to run, format HH:MM:SS 
+#SBATCH -t 20:00:00	## give an estimation of how long is your job going to run, format HH:MM:SS 
 ##SBATCH -p hologenomics
-#SBATCH -c 40	## number cpus
+#SBATCH -c 30	## number cpus
 #SBATCH --mem=115gb	## total RAM
-#SBATCH --array=151-200%3
+#SBATCH --array=1-200%10
 
 ############################################
 # Your scripts below
