@@ -3,3 +3,5 @@ Scripts developed for the manuscript "Unravelling the golden jackal's genomic jo
 
 These scripts were developed by Nuno Martins, any questions and issues can be directed to:
 nuno.martins@sund.ku.dk
+
+All computational tasks were scheduled and executed via a Slurm system, ensuring efficient resource allocation and parallel execution on an HPC cluster.
