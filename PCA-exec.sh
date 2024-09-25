@@ -31,18 +31,9 @@ pcangsd \
  --maf_iter 200 \
  --pcadapt --selection \
  -o $GEN/$pop-TEST3_pca
+
+# Additional options
 # --admix \
 # --tree \
-# -o $GEN/GJ_"$pop"_pca
 
-#module unload pcangsd
-#module load pcangsd/1.10
 
-#pcangsd \
-# --beagle $GEN/$pop \
-# --minMaf 0.05 \
-# --threads 25 \
-# --iter 500 \
-# --maf_iter 200 \
-# --pcadapt \
-# -o "$na"_pca_V1
