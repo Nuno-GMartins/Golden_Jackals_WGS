@@ -37,7 +37,7 @@ angsd -P 2 -bam $WOK/GoldenJackals.filelist -ref $DOG -out $GL/ngsLD-test_GJ_chr
 #SITES=$(wc -l test_EU_GLWD.pos | awk '{print $1}')
 
 IND=154
-SITES=4012478
+SITES=$(wc -l $GL/ngsLD-test_GJ_chr8.mafs.gz | awk '{print $1}')
 
 #ngsLD --n_threads 10 --seed $sd --verbose 1 --pos $GL/test_EU_GLWD.pos \
 #  --geno Gjs_all_chr1.beagle.gz --n_ind 196 --n_sites 1036000 \
