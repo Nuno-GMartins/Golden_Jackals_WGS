@@ -11,7 +11,7 @@
 #SBATCH -c 12	## number cpus
 #SBATCH --mem=12gb	## total RAM
 #SBATCH --output=/projects/mjolnir1/people/jbf527/jackals/heterozygosity/angsd%A%a.log
-##SBATCH --array=2-8%2
+##SBATCH --array=1-40%5
 
 ############################################
 # Your scripts below
@@ -32,7 +32,7 @@ OUT='ExpandedGJ_pruned.freq'
 #Mig="$1"
 
 #ls $WOK/*.bam | cut -d "/" -f 8 > Canids.filelist
-#mig=${SLURM_ARRAY_TASK_ID}
+mig=${SLURM_ARRAY_TASK_ID}
 
 awk '{print $1,$2,$3}' OFS='\t' $IND_POP | awk -F "" 'NR==FNR {split($0,a,"\t"); pop[NR]=a[3];!l[a[3]]++;next}{for(j in l){f[j":0"]=0;f[j":1"]=0};for(i=1;i<=NF;i++){switch($i){case "0":f[pop[i]":0"]++;break; case "2": f[pop[i]":1"]++;break;}};if(FNR==1){for(k in l){printf k"\t"};print "";} ;for(k in l){printf f[k":0"]","f[k":1"]"\t"};print "";delete f}' OFS='\t' - $GENO > $WOK/$OUT
 
