@@ -11,7 +11,7 @@
 #SBATCH -c 8   ## number cpus
 #SBATCH --mem=6gb      ## total RAM
 #SBATCH --output=/projects/mjolnir1/people/jbf527/jackals/heterozygosity/logs_erros_SFS-Rohan/Rohan_%A_%a.log
-#SBATCH --array=1-137%15
+#SBATCH --array=1-137%15 # The array number changes with the size of the fileslist
 
 ############################################
 # Your scripts below
@@ -22,16 +22,10 @@ DOG=/projects/mjolnir1/people/jbf527/ref/CanFam3_withMT/Canis_l_familiaris_CanFa
 ROH=/projects/mjolnir1/people/jbf527/bin/rohan/bin
 WOK=/projects/mjolnir1/people/jbf527/jackals/filtered_bams
 
-sample=$(sed -n "$SLURM_ARRAY_TASK_ID"p $WOK/ExpandedGoldenJackalsPhylogenyShort.filelist | awk '{print $1}')
+file='$1' #Input the filelist with the bam files that you want to use for this analysis
+
+sample=$(sed -n "$SLURM_ARRAY_TASK_ID"p $WOK/$file | awk '{print $1}')
 na=$(echo $sample | cut -d "/" -f 8 | cut -d "." -f 1)
-
-#$ROH/rohan \
-#  -t 8 --rohmu 2e-5 --auto names.txt --out $HET/$na \
-#  $DOG $WOK/$sample
-
-#$ROH/rohan \
-#  -t 8 --rohmu 1e-5 --auto names.txt --out $HET/MJ001_test \
-#  $DOG $WOK/MJ001.CanFam31.filtered.bam
 
 if [ -e $HET/"$na".hEst.gz ]; then
     :
